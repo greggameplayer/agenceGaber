@@ -43,7 +43,7 @@ CREATE TABLE LieuAvisiter(
    NomPays VARCHAR(50),
    NomLieu VARCHAR(50),
    Descriptif VARCHAR(50),
-   PrixVisite VARCHAR(50),
+   PrixVisite INT,
    PRIMARY KEY(IdVille, NomPays, NomLieu),
    FOREIGN KEY(IdVille) REFERENCES Ville(IdVille),
    FOREIGN KEY(NomPays) REFERENCES Pays(NomPays)
