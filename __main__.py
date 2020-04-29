@@ -1,3 +1,3 @@
-from agenceGaber.main import Main
+from agenceGaber.main import MAINMENU
 
-Main()
+MAINMENU()

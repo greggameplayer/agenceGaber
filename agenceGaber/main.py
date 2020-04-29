@@ -1,4 +1,5 @@
 import os
+from tkinter import *
 
 try:
     import pyodbc
@@ -22,3 +23,11 @@ def Main():
         print(row[1], row.IdCircuit)
     cursor.close()
     conn.close()
+
+
+class MAINMENU:
+    def __init__(self):
+        self.window = Tk()
+        self.window.title("agenceGaber")
+        Main()
+        self.window.mainloop()
