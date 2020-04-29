@@ -63,7 +63,6 @@ WHERE Circuit.IdCircuit = '...'
 AND Circuit.IdCircuit = Etape.IdCircuit
 )
 BEGIN
-
 	UPDATE Etape
 	SET Etape.Ordre = @count
 	FROM Circuit
@@ -72,5 +71,8 @@ BEGIN
 	AND Etape.Ordre = @count + 1;
 
 	SET @count = @count+1;
-
 END;
+
+INSERT INTO Reservation(DateReservation, IdCircuit, IdClient, NbrPlaceReserver) VALUES('01/04/2020', 1, 3, 1);
+INSERT INTO DetailsReservation(IdMembre, IdReserv, Valider) VALUES(1, 1, 1);
+

@@ -71,7 +71,7 @@ CREATE TABLE Membre(
    FOREIGN KEY(IdMembre) REFERENCES Utilisateur(IdUtilisateur)
 );
 
-CREATE TABLE Réservation(
+CREATE TABLE Reservation(
    IdReserv INT IDENTITY (1,1),
    NbrPlaceReserver INT,
    DateReservation DATE,
@@ -102,5 +102,5 @@ CREATE TABLE DetailsReservation(
    DateAnnulation DATE,
    PRIMARY KEY(IdMembre, IdReserv),
    FOREIGN KEY(IdMembre) REFERENCES Membre(IdMembre),
-   FOREIGN KEY(IdReserv) REFERENCES Réservation(IdReserv)
+   FOREIGN KEY(IdReserv) REFERENCES Reservation(IdReserv)
 );

@@ -72,8 +72,8 @@ VALUES (2, 'azerty', 'Victor.Marit');
 INSERT INTO  Client (IdClient, mdp, login)
 VALUES (3, 'azerty', 'Gregoire.Hage');
 
-INSERT INTO  Réservation (NbrPlaceReserver, DateReservation, IdCircuit, IdClient)
+/*INSERT INTO  Réservation (NbrPlaceReserver, DateReservation, IdCircuit, IdClient)
 VALUES (1, '01/04/2020', 1, 3);
 
 INSERT INTO  DetailsReservation (IdMembre, IdReserv, Valider)
-VALUES (1, 1, 1);
+VALUES (1, 1, 1);*/
