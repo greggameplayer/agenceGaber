@@ -2,7 +2,7 @@ import pyodbc
 
 
 def ConnectToDatabase():
-    conn = pyodbc.connect('DSN=AgenceGaber;Trusted_Connection=yes;')
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};DSN=AgenceGaber;Trusted_Connection=yes;')
     conn.setencoding(encoding='utf-8')
     return conn
 
