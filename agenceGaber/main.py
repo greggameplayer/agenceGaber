@@ -11,6 +11,8 @@ def Main():
     conn = ConnectToDatabase()
     cursor = conn.cursor()
     cursor.execute("select * from circuit")
-    row = cursor.fetchone()
-    print('name:', row[1])          # access by column index (zero-based)
-    print('name:', row.IdCircuit)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row[1], row.IdCircuit)
+    cursor.close()
+    conn.close()
