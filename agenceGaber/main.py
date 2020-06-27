@@ -1,13 +1,16 @@
 import os
 from tkinter import *
-from agenceGaber.functions import Main
+from agenceGaber.widget.frameConnexion import connexion
 
+def MAINMENU(DB):
 
-class MAINMENU:
-    def __init__(self):
-        self.window = Tk()
-        self.window.title("agenceGaber")
-        self.window.geometry("600x600")
-        self.window.resizable(False, False)
-        Main()
-        self.window.mainloop()
+    global database
+    database = DB
+    global window
+    window = Tk()
+    window.title("agenceGaber")
+    window.geometry("600x600")
+    window.configure(background='grey15')
+    window.resizable(False, False)
+    connexion()
+    window.mainloop()
