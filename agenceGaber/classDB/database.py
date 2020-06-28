@@ -90,7 +90,7 @@ class DATABASE:
             conn = self.connectToDatabase()
             print('\n nul \n')
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email='{}'",credentials[0])
+            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?",credentials[0])
             resultat = cursor.fetchone()
         except:
             print('fail to connect')
