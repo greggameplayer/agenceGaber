@@ -21,25 +21,26 @@ def menuAdministrateur():
     voidLabel=tkinter.Label(menuAdministrateur, text ='               ', bg='grey15')
     voidLabel.grid(row = 1, column = 1)
     #Find trip
-    trip1 = tkinter.Button(menuAdministrateur, text = 'Trouver un voyage',width=20,overrelief='groove',command=  ,bg='grey40',fg="snow")
+    trip1 = tkinter.Button(menuAdministrateur, text = 'Trouver un voyage',width=20,overrelief='groove',command= vide ,bg='grey40',fg="snow")
     trip1.grid(row = 1, column=0)
     #find user 
-    trip1 = tkinter.Button(menuAdministrateur, text = 'Trouver un client',width=20,overrelief='groove',command=  ,bg='grey40',fg="snow")
+    trip1 = tkinter.Button(menuAdministrateur, text = 'Trouver un client',width=20,overrelief='groove',command= vide ,bg='grey40',fg="snow")
     trip1.grid(row = 2, column=0)
     #creat a new trip
-    trip1 = tkinter.Button(menuAdministrateur, text = 'Ajouter un voyage',width=20,overrelief='groove',command=  ,bg='grey40',fg="snow")
+    trip1 = tkinter.Button(menuAdministrateur, text = 'Ajouter un voyage',width=20,overrelief='groove',command= vide ,bg='grey40',fg="snow")
     trip1.grid(row = 2, column=0)
     #voidLabel 2
     voidLabel2= tkinter.Label(menuAdministrateur,bg='grey15')
     voidLabel2.grid(row = 3)
     #disconnect
-    disconnect = tkinter.Button(menuAdministrateur, text = 'Déconnexion', width=10, overrelief='groove', command=  , bg='grey40', fg="snow")
+    disconnect = tkinter.Button(menuAdministrateur, text = 'Déconnexion', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
     disconnect.grid(row = 4, column = 0)
     #close app 
-    closeApp = tkinter.Button(menuAdministrateur, text = 'Quitter', width=10, overrelief='groove', command=  , bg='grey40', fg="snow")
+    closeApp = tkinter.Button(menuAdministrateur, text = 'Quitter', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
     closeApp.grid(row = 5, column = 0)
 
-
+def vide():
+    pass
 
 
 def menuClient():

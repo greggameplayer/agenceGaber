@@ -49,7 +49,7 @@ def traitement():
         if not log[0]:
             tkinter.messagebox.showinfo('Alert','Veuillez saisir un email')
         else:
-            tkinter.messagebox.showinfo('Alert','Veuillez saisir vpotre mot de passe')
+            tkinter.messagebox.showinfo('Alert','Veuillez saisir votre mot de passe')
 
 
 
