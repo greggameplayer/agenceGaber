@@ -83,7 +83,7 @@ def frameSeeMoreAboutTrip(id):
     #retour
     returnButton=tkinter.Button(frameSeeMoreAboutTrip, command= retour2 ,text= 'Retour', bg='grey15',fg='snow')
     returnButton.pack()
-SELECT etape.NomPays, etape.NomLieu, ville.Libelle From etape, ville WHERE  AND IdCircuit={},id
+SELECT etape.NomPays, etape.NomLieu, ville.Libelle From etape, ville WHERE ville.IdVille AND IdCircuit={},id
 
 def retour2():
     frameSeeMoreAboutTrip.destroy()
