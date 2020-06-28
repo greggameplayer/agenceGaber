@@ -16,29 +16,8 @@ class DATABASE:
         self.dbname = dbname
 
     def connectToDatabase(self):
-        conn = pyodbc.connect('Driver={MySQL ODBC 8.0 ANSI Driver};Server=' + self.ip +';Port=' + self.port +';Database=' + self.dbname +';Uid=' + self.user + ';Pwd=' + self.pwd +';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
-        conn.setencoding(encoding='utf-8')
-        return conn
 
 
-    def closeDatabase(self, conn, cursor):
-        cursor.close()
-        conn.close()
-
-
-    def circuitInfos(self, IdGiven):
-        conn = self.connectToDatabase()
-        cursor = conn.cursor()
-        cursor.execute(
-        """
-        Select
-        Circuit.IdCircuit, Circuit.Descriptif,
-        (SELECT Ville.Libelle
-        FROM Circuit, Ville
-        WHERE Circuit.IdVilleDepart=Ville.IdVille AND Circuit.IdCircuit=1) AS VilleDepart,
-        (SELECT Ville.Libelle
-        FROM Circuit, Ville
-        WHERE Circuit.IdVilleArrivee=Ville.IdVille AND Circuit.IdCircuit=1) AS VilleArrivee,
         (SELECT COUNT(*)
         from Etape
         Where Etape.IdCircuit=?) AS NombreEtapes
@@ -88,32 +67,35 @@ class DATABASE:
         resultat=[] 
         try :
             conn = self.connectToDatabase()
+            print('\n nul \n')
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?",credentials[0])
+            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email='{}'",credentials[0])
             resultat = cursor.fetchone()
         except:
             print('fail to connect')
         finally:
             mdp = ""
-            if self.getUserGroup(resultat[0]) == 1:
-                cursor.execute("SELECT * FROM administrateur WHERE IdAdmin=?",resultat[0])
-                mdp = cursor.fetchone()[1]
-                list(resultat).append(1)
-                self.closeDatabase(conn, cursor)
-                if credentials[1] == mdp:
-                    return [resultat, 1]
+            if len(resultat)>0:
+                if self.getUserGroup(resultat[0]) == 1:
+                    cursor.execute("SELECT * FROM administrateur WHERE IdAdmin='{}'",resultat[0])
+                    mdp = cursor.fetchone()[1]
+                    list(resultat).append(1)
+                    self.closeDatabase(conn, cursor)
+                    if credentials[1] == mdp:
+                        return [resultat, 1]
+                    else:
+                        return []
                 else:
-                    return []
+                    cursor.execute("SELECT * FROM client WHERE IdClient='{}'",resultat[0])
+                    mdp = cursor.fetchone()[1]
+
+                    self.closeDatabase(conn, cursor)
+                    if credentials[1] == mdp:
+                        return [resultat, 0]
+                    else:
+                        return []
             else:
-                cursor.execute("SELECT * FROM client WHERE IdClient=?",resultat[0])
-                mdp = cursor.fetchone()[1]
-                
-                self.closeDatabase(conn, cursor)
-                if credentials[1] == mdp:
-                    return [resultat, 0]
-                else:
-                    return []
-            
+                return []
     
     def getUserGroup(self, UserID):
         results = []
@@ -121,11 +103,10 @@ class DATABASE:
         try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM client WHERE IdClient=?", UserID)
+            cursor.execute("SELECT * FROM client WHERE IdClient='{}", UserID)
             results = cursor.fetchone()[0]
         except:
             test = 1
         finally:
             self.closeDatabase(conn, cursor)
-
             return test
