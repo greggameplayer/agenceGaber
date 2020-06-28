@@ -1,9 +1,9 @@
 import tkinter
 import agenceGaber.main as agm
-from agenceGaber.widget.frameConnexion import *
+from agenceGaber.widget.frameConnexion import user
 
 def menuFrame():
-    if user.getRole == 1 :
+    if user.getRole == 0 :
         menuClient()
     else :
         menuAdministrateur() 
@@ -52,5 +52,22 @@ def menuClient():
     menuClient.pack(pady=10)
     #widgetLabel
     welcomeLabel=tkinter.Label(menuClient, text = 'Bienvenue '+user.name, bg='grey15',fg='snow')
-
+    welcomeLabel.grid(row=0,column=0,columnspan=2,pady=10)
+    voidLabel=tkinter.Label(menuAdministrateur, text ='               ', bg='grey15')
+    voidLabel.grid(row = 1, column = 1)
+    #Voir réservation
+    seeReservation = tkinter.Button(menuClient, text= 'Voir Mes Réservation', width = 50, overrelief='groove',command= vide ,bg='grey40',fg="snow")
+    seeReservation.grid(row = 1, pady = 1)
+    #Voir les voyages 
+    findTrip = tkinter.Button(menuClient, text= 'Voir Mes Réservation', width = 50, overrelief='groove',command= vide ,bg='grey40',fg="snow")
+    findTrip.grid(row = 2, pady = 1)
+    #paiement en attente
+    seePaiement = tkinter.Button(menuClient, text= 'Voir Mes Paiement', width = 50, overrelief='groove',command= vide ,bg='grey40',fg="snow")
+    seePaiement.grid(row = 3, pady = 1)
+    #disconnect
+    disconnect = tkinter.Button(menuAdministrateur, text = 'Déconnexion', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
+    disconnect.grid(row = 4, column = 0)
+    #close app 
+    closeApp = tkinter.Button(menuAdministrateur, text = 'Quitter', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
+    closeApp.grid(row = 5, column = 0)
 
