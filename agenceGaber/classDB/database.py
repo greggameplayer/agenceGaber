@@ -85,26 +85,14 @@ class DATABASE:
             return {"error": "Un utilisateur posséde déjà cet email"}
     
     def signIN(self, credentials):
-        conn = self.connectToDatabase()
-        cursor = conn.cursor()
-        print(credentials[0])
-        data = cursor.execute(f"select * from utilisateur where email='{credentials[0]}'").fetchall()
-        print(data)
-        if len(list(data)) > 0:
-            cursor.execute(
-                """
-                SELECT * from client WHERE IdClient = ?
-                """, data[0][0]
-            )
-
-            veriflength = len(list(cursor.fetchall()))
-
-            if veriflength == 0:
-                self.closeDatabase(conn, cursor)
-                return (data[0], 1)
-            else:
-                self.closeDatabase(conn, cursor)
-                return (data[0], 0)
-        else:
-            self.closeDatabase(conn, cursor)
-            return {"error": "L'utilisateur n'existe pas"}
+        resultat=[] 
+        try :
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Utilisateur WHERE Utilisateur.email=? AND Utilisateur.password=?",login)
+            resultat = cursor.fetchone()
+        except:
+            print('fail to connect')
+        finally:
+            return resultat
+         

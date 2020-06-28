@@ -17,7 +17,7 @@ class User :
     def isAuth(self):
         self.auth = True
 
-    def setInformation(self, id, name, role):
+    def setInformations(self, id, name, role):
         self.id= id
         self.name = name
         if role == 1:
@@ -27,4 +27,6 @@ class User :
     
     def findUserOnDB(self):
         login = (self.email, self.pw)
-        agm.database.signIN(login)
+        informations = agm.database.signIN(login)
+        if len(informations)>0:
+            self.setInformations(informations)

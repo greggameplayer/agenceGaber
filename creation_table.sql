@@ -4,7 +4,7 @@ CREATE TABLE Pays(
 );
 
 CREATE TABLE Ville(
-   IdVille INT IDENTITY (1,1),
+   IdVille INT  AUTO_INCREMENT,
    Libelle VARCHAR(50),
    CP INT,
    Longitude INT,
@@ -12,7 +12,7 @@ CREATE TABLE Ville(
 );
 
 CREATE TABLE Utilisateur(
-   IdUtilisateur INT IDENTITY (1,1),
+   IdUtilisateur INT  AUTO_INCREMENT,
    Nom VARCHAR(50),
    email VARCHAR(50) UNIQUE,
    Prenom VARCHAR(50),
@@ -21,7 +21,7 @@ CREATE TABLE Utilisateur(
 );
 
 CREATE TABLE Circuit(
-   IdCircuit INT IDENTITY (1,1),
+   IdCircuit INT  AUTO_INCREMENT,
    DateDepart DATE,
    NbrPlaceDisponible INT,
    Duree INT,
