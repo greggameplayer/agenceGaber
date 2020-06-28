@@ -16,8 +16,29 @@ class DATABASE:
         self.dbname = dbname
 
     def connectToDatabase(self):
+        conn = pyodbc.connect('Driver={MySQL ODBC 8.0 ANSI Driver};Server=' + self.ip +';Port=' + self.port +';Database=' + self.dbname +';Uid=' + self.user + ';Pwd=' + self.pwd +';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+        conn.setencoding(encoding='utf-8')
+        return conn
 
 
+    def closeDatabase(self, conn, cursor):
+        cursor.close()
+        conn.close()
+
+
+    def circuitInfos(self, IdGiven):
+        conn = self.connectToDatabase()
+        cursor = conn.cursor()
+        cursor.execute(
+        """
+        Select
+        Circuit.IdCircuit, Circuit.Descriptif,
+        (SELECT Ville.Libelle
+        FROM Circuit, Ville
+        WHERE Circuit.IdVilleDepart=Ville.IdVille AND Circuit.IdCircuit=1) AS VilleDepart,
+        (SELECT Ville.Libelle
+        FROM Circuit, Ville
+        WHERE Circuit.IdVilleArrivee=Ville.IdVille AND Circuit.IdCircuit=1) AS VilleArrivee,
         (SELECT COUNT(*)
         from Etape
         Where Etape.IdCircuit=?) AS NombreEtapes
