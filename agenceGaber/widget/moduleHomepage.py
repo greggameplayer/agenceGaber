@@ -1,9 +1,9 @@
 import tkinter
 import agenceGaber.main as agm
-from agenceGaber.widget.frameConnexion import *
+import agenceGaber.widget.frameConnexion as agconn
 
 def menuFrame():
-    if user.getRole == 1 :
+    if agconn.user.getRole() == 0 :
         menuClient()
     else :
         menuAdministrateur() 
@@ -36,11 +36,14 @@ def menuAdministrateur():
     disconnect = tkinter.Button(menuAdministrateur, text = 'Déconnexion', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
     disconnect.grid(row = 4, column = 0)
     #close app 
-    closeApp = tkinter.Button(menuAdministrateur, text = 'Quitter', width=10, overrelief='groove', command= vide , bg='grey40', fg="snow")
+    closeApp = tkinter.Button(menuAdministrateur, text = 'Quitter', width=10, overrelief='groove', command= quit , bg='grey40', fg="snow")
     closeApp.grid(row = 5, column = 0)
 
 def vide():
     pass
+
+def quit():
+    agm.window.destroy()
 
 
 def menuClient():
@@ -51,6 +54,6 @@ def menuClient():
     menuClient.configure(bg='grey15')
     menuClient.pack(pady=10)
     #widgetLabel
-    welcomeLabel=tkinter.Label(menuClient, text = 'Bienvenue '+user.name, bg='grey15',fg='snow')
-
+    welcomeLabel=tkinter.Label(menuClient, text = 'Bienvenue '+agconn.user.name, bg='grey15',fg='snow')
+    welcomeLabel
 

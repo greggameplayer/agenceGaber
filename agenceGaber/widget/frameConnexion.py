@@ -42,7 +42,7 @@ def traitement():
         if user.auth:
             tkinter.messagebox.showinfo('Connexion','Connexion Réussie')
             frameConnexion.destroy()
-            homepage.menuFrame(user)
+            homepage.menuFrame()
         else: 
             tkinter.messagebox.showinfo('Alert','Echec de la connexion, vérifiez les informations saisies')
     else :

@@ -17,13 +17,11 @@ class User :
     def isAuth(self):
         self.auth = True
 
-    def setInformations(self, id, name, role):
-        self.id= id
-        self.name = name
-        if role == 1:
-            self.role = 1 
-        else:
-            self.role = 0
+    def setInformations(self, infos):
+        self.id= infos[0][0]
+        self.name = str(infos[0][3])+ ' ' +str(infos[0][1])
+        self.role = int(infos[1])
+        self.auth = True
     
     def findUserOnDB(self):
         login = (self.email, self.pw)

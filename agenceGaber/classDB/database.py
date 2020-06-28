@@ -89,10 +89,43 @@ class DATABASE:
         try :
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM Utilisateur WHERE Utilisateur.email=? AND Utilisateur.password=?",login)
+            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?",credentials[0])
             resultat = cursor.fetchone()
         except:
             print('fail to connect')
         finally:
-            return resultat
-         
+            mdp = ""
+            if self.getUserGroup(resultat[0]) == 1:
+                cursor.execute("SELECT * FROM administrateur WHERE IdAdmin=?",resultat[0])
+                mdp = cursor.fetchone()[1]
+                list(resultat).append(1)
+                self.closeDatabase(conn, cursor)
+                if credentials[1] == mdp:
+                    return [resultat, 1]
+                else:
+                    return []
+            else:
+                cursor.execute("SELECT * FROM client WHERE IdClient=?",resultat[0])
+                mdp = cursor.fetchone()[1]
+                
+                self.closeDatabase(conn, cursor)
+                if credentials[1] == mdp:
+                    return [resultat, 0]
+                else:
+                    return []
+            
+    
+    def getUserGroup(self, UserID):
+        results = []
+        test = 0
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM client WHERE IdClient=?", UserID)
+            results = cursor.fetchone()[0]
+        except:
+            test = 1
+        finally:
+            self.closeDatabase(conn, cursor)
+
+            return test
