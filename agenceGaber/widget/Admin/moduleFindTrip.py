@@ -75,15 +75,17 @@ def frameSeeMoreAboutTrip(id):
     label9.pack()
 
     #liste des étapes
-    villes = agcdb.citiesTrip(id)
-
-    label9= tkinter.Label(frameSeeAllTrips, text = 'Place(s) restante(s): {}'.format(info[2]-place), bg='grey15',fg='snow')
-    label9.pack()
+    indice = 1
+    indicelabel = 10
+    for détail in agcdb.etapesTrip(id):
+        label.indicelabel= tkinter.Label(frameSeeAllTrips, text = 'L\'Etapes '+indice+' se déroule en {}'.format(détail[0])' à {}'.format(détail[2])' à {}'.format(détail[1])), bg='grey15',fg='snow')
+        label.indicelabel.pack()
+        indice += 1
+        indicelabel += 1
 
     #retour
     returnButton=tkinter.Button(frameSeeMoreAboutTrip, command= retour2 ,text= 'Retour', bg='grey15',fg='snow')
     returnButton.pack()
-SELECT etape.NomPays, etape.NomLieu, ville.Libelle From etape, ville WHERE ville.IdVille AND IdCircuit={},id
 
 def retour2():
     frameSeeMoreAboutTrip.destroy()

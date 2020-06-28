@@ -183,3 +183,16 @@ class DATABASE:
         finally:
             self.closeDatabase(conn, cursor)
             return result
+
+    def etapesTrip(self, id):
+        idCircuit= (id,)
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT etape.NomPays, etape.NomLieu, ville.Libelle FROM etape, ville WHERE ville.IdVille = etape.IdVille AND IdCircuit={}",idCircuit)
+            results = cursor.fetchall
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
