@@ -131,3 +131,55 @@ class DATABASE:
         finally:
             self.closeDatabase(conn, cursor)
             return test
+
+
+    def allTrip(self):
+        try: 
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM circuit")
+            result = cursor.fetchall
+        except:
+            result = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return result
+    
+    def featureTrip(self, id):
+        n= (id,)
+        try: 
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM circuit WHERE IdCircuit = {}", n)
+            result = cursor.fetchone
+        except:
+            result = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return result
+
+    def numberPlacesLeft(self, id):
+        n= (id,)
+        try: 
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM reservation WHERE IdCircuit = {}", n)
+            result = cursor.fetchone
+        except:
+            result = ['0']
+        finally:
+            self.closeDatabase(conn, cursor)
+            return result
+
+    def citiesTrip(self, id):
+        n= (id,)
+        try: 
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM etape WHERE IdCircuit = {}", n)
+            result = cursor.fetchone
+        except:
+            result = ['0']
+        finally:
+            self.closeDatabase(conn, cursor)
+            return result
