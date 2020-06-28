@@ -34,6 +34,7 @@ def connexion():
     btInscription.grid(row=4,column=0,pady=2,columnspan=2)
 
 def traitement():
+    global user
     log=(entryID.get(),entryMP.get())
     if log[0] !='' and log[1] !='':
         user=User(log)

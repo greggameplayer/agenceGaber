@@ -84,7 +84,7 @@ def returnSub():
     mfc.connexion()
 
 def subscribeFunction():
-    if not fnEntry.get() and not lnEntry.get() and not emailEntry.get() and not confirmEmailEntry.get() and not pwEntry.get() and not confirmPwEntry.get() and not birthEntry.get() :
+    if not fnEntry.get() or not lnEntry.get() or not emailEntry.get() or not confirmEmailEntry.get() or not pwEntry.get() or not confirmPwEntry.get() or not birthEntry.get() :
         messagebox.showwarning("Attention","Veuillez remplir tous les champs")
     elif not re.search('^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', emailEntry.get()):
         messagebox.showwarning("Attention",'Veuillez saisir un email valide')

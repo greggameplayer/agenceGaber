@@ -3,6 +3,7 @@ import agenceGaber.main as agm
 class User :
     def __init__(self, login):
         self.email = login[0]
+        self.name =''
         self.pw = login[1]
         self.id = ''
         self.role = ''
@@ -16,11 +17,10 @@ class User :
     def isAuth(self):
         self.auth = True
 
-    def setId(self, variable):
-        self.id= var
-    
-    def setRole(self, variable):
-        if var == 1:
+    def setInformation(self, id, name, role):
+        self.id= id
+        self.name = name
+        if role == 1:
             self.role = 1 
         else:
             self.role = 0
