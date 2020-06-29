@@ -28,30 +28,30 @@ def menuAdministrateurFunc():
     # Find trip
     trip1 = tkinter.Button(menuAdministrateur, text='Trouver un voyage', width=20, overrelief='groove',
                            command=toFrameSeeAllTrips, bg='grey40', fg="snow")
-    trip1.grid(row=1, column=0)
+    trip1.grid(row=1, column=0, columnspan=2)
     # find user
     findUser = tkinter.Button(menuAdministrateur, text='Trouver un client', width=20, overrelief='groove',
                               command=toFrameSeeAllUsers, bg='grey40', fg="snow")
-    findUser.grid(row=2, column=0)
+    findUser.grid(row=2, column=0, columnspan=2)
     # creat a new trip
     creatTrip = tkinter.Button(menuAdministrateur, text='Ajouter un voyage', width=20, overrelief='groove',
                                command=toFrameAddTrip, bg='grey40', fg="snow")
-    creatTrip.grid(row=3, column=0)
+    creatTrip.grid(row=3, column=0, columnspan=2)
     # update trip
     updateTrip = tkinter.Button(menuAdministrateur, text='Modifier un voyage', width=20, overrelief='groove',
                                 command=toFrameModifTrip, bg='grey40', fg="snow")
-    updateTrip.grid(row=4, column=0)
+    updateTrip.grid(row=4, column=0, columnspan=2)
     # voidLabel 2
     voidLabel2 = tkinter.Label(menuAdministrateur, bg='grey15')
     voidLabel2.grid(row=5)
     # disconnect
     disconnect = tkinter.Button(menuAdministrateur, text='Déconnexion', width=10, overrelief='groove',
                                 command=disconn, bg='grey40', fg="snow")
-    disconnect.grid(row=6, column=0)
+    disconnect.grid(row=6, column=0, columnspan=2)
     # close app
     closeApp = tkinter.Button(menuAdministrateur, text='Quitter', width=10, overrelief='groove', command=quit,
                               bg='grey40', fg="snow")
-    closeApp.grid(row=7, column=0)
+    closeApp.grid(row=7, column=0, columnspan=2)
 
 
 def toFrameSeeAllTrips():
