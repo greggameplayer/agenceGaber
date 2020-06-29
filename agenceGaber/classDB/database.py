@@ -85,20 +85,20 @@ class DATABASE:
             return {"error": "Un utilisateur posséde déjà cet email"}
     
     def signIN(self, credentials):
-        resultat=[] 
-        try :
+        resultat = []
+        try:
             conn = self.connectToDatabase()
             print('\n nul \n')
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?",credentials[0])
+            cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?", credentials[0])
             resultat = cursor.fetchone()
         except:
             print('fail to connect')
         finally:
             mdp = ""
-            if len(resultat)>0:
+            if len(resultat) > 0:
                 if self.getUserGroup(resultat[0]) == 1:
-                    cursor.execute("SELECT * FROM administrateur WHERE IdAdmin='{}'",resultat[0])
+                    cursor.execute("SELECT * FROM administrateur WHERE IdAdmin=?", resultat[0])
                     mdp = cursor.fetchone()[1]
                     list(resultat).append(1)
                     self.closeDatabase(conn, cursor)
@@ -107,7 +107,7 @@ class DATABASE:
                     else:
                         return []
                 else:
-                    cursor.execute("SELECT * FROM client WHERE IdClient='{}'",resultat[0])
+                    cursor.execute("SELECT * FROM client WHERE IdClient=?", resultat[0])
                     mdp = cursor.fetchone()[1]
 
                     self.closeDatabase(conn, cursor)
@@ -124,7 +124,7 @@ class DATABASE:
         try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM client WHERE IdClient='{}", UserID)
+            cursor.execute("SELECT * FROM client WHERE IdClient=?", UserID)
             results = cursor.fetchone()[0]
         except:
             test = 1
