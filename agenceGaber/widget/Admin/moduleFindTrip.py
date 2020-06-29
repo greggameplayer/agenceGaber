@@ -1,10 +1,10 @@
 import tkinter
 import agenceGaber.main as agm
 import agenceGaber.widget.moduleHomepage as agwmh
-import agenceGaber.classDB.database as agcdb
+import agenceGaber.main as agcdb
 
 
-def frameSeeAllTrips():
+def frameSeeAllTripsFunc():
     # variables globales
     global frameSeeAllTrips
 
@@ -19,30 +19,28 @@ def frameSeeAllTrips():
     voidLabel.pack()
 
     # boutons voyages
-    nb = agcdb.allTrip()
-    indiceVoyage = 1
-    for i in nb:
-        buttonVoyage = tkinter.Button(frameSeeAllTrips, text='Voyage' + indiceVoyage,
-                                      command=lambda id=i[0]: seeMore(id), bg='grey15', fg='snow')
+    nb = agcdb.database.allTrip()
+    for idx, i in enumerate(list(nb)):
+        buttonVoyage = tkinter.Button(frameSeeAllTrips, text=f'Voyage {idx+1}',
+                                      command=lambda id=i[0]: seeMore(id), overrelief='groove', bg='grey40', fg='snow')
         buttonVoyage.pack()
-        indiceVoyage += 1
 
     # return button
-    returnButton = tkinter.Button(frameSeeAllTrips, command=retour, text='Retour', bg='grey15', fg='snow')
+    returnButton = tkinter.Button(frameSeeAllTrips, command=retour, text='Retour', overrelief='groove', bg='grey40', fg='snow')
     returnButton.pack()
 
 
 def retour():
     frameSeeAllTrips.destroy()
-    agwmh.menuAdministrateur()
+    agwmh.menuAdministrateurFunc()
 
 
 def seeMore(id):
     frameSeeAllTrips.destroy()
-    frameSeeMoreAboutTrip(id)
+    frameSeeMoreAboutTripFunc(id)
 
 
-def frameSeeMoreAboutTrip(id):
+def frameSeeMoreAboutTripFunc(id):
     # variables globales
     global frameSeeMoreAboutTrip
     # creation de la frame
@@ -54,45 +52,43 @@ def frameSeeMoreAboutTrip(id):
     detailLabel.pack()
 
     # find informations
-    info = agcdb.featureTrip(id)
-    label1 = tkinter.Label(frameSeeAllTrips, text='Ville de départ : {}'.format(info[8]), bg='grey15', fg='snow')
+    info = agcdb.database.featureTrip(id)
+    print(info)
+    label1 = tkinter.Label(frameSeeMoreAboutTrip, text=f'Ville de départ : {info[8]}', bg='grey15', fg='snow')
     label1.pack()
-    label2 = tkinter.Label(frameSeeAllTrips, text='Ville d\'arrivé : {}'.format(info[9]), bg='grey15', fg='snow')
+    label2 = tkinter.Label(frameSeeMoreAboutTrip, text='Ville d\'arrivé : {}'.format(info[9]), bg='grey15', fg='snow')
     label2.pack()
-    label3 = tkinter.Label(frameSeeAllTrips, text='Date de départ : {}'.format(info[1]), bg='grey15', fg='snow')
+    label3 = tkinter.Label(frameSeeMoreAboutTrip, text='Date de départ : {}'.format(info[1]), bg='grey15', fg='snow')
     label3.pack()
-    label4 = tkinter.Label(frameSeeAllTrips, text='Description : {}'.format(info[5]), bg='grey15', fg='snow')
+    label4 = tkinter.Label(frameSeeMoreAboutTrip, text='Description : {}'.format(info[5]), bg='grey15', fg='snow')
     label4.pack()
-    label5 = tkinter.Label(frameSeeAllTrips, text='Nombre de places totales : {}'.format(info[2]), bg='grey15',
+    label5 = tkinter.Label(frameSeeMoreAboutTrip, text='Nombre de places totales : {}'.format(info[2]), bg='grey15',
                            fg='snow')
     label5.pack()
-    label6 = tkinter.Label(frameSeeAllTrips, text='Nombre de jours : {}'.format(info[3]), bg='grey15', fg='snow')
+    label6 = tkinter.Label(frameSeeMoreAboutTrip, text='Nombre de jours : {}'.format(info[3]), bg='grey15', fg='snow')
     label6.pack()
-    label7 = tkinter.Label(frameSeeAllTrips, text='Prix : {}'.format(info[3]), bg='grey15', fg='snow')
+    label7 = tkinter.Label(frameSeeMoreAboutTrip, text=f'Prix : {info[4]} €', bg='grey15', fg='snow')
     label7.pack()
 
     # nombre de place restantes
-    place = agcdb.numberPlacesLeft(id)
-    label8 = tkinter.Label(frameSeeAllTrips, text='Place(s) réservée(s) : {}'.format(place), bg='grey15', fg='snow')
+    place = agcdb.database.numberPlacesLeft(id)
+    label8 = tkinter.Label(frameSeeMoreAboutTrip, text='Place(s) réservée(s) : {}'.format(place), bg='grey15', fg='snow')
     label8.pack()
-    label9 = tkinter.Label(frameSeeAllTrips, text='Place(s) restante(s): {}'.format(info[2] - place), bg='grey15',
+    label9 = tkinter.Label(frameSeeMoreAboutTrip, text=f'Place(s) restante(s): {str(int(info[2]) - int(place))}', bg='grey15',
                            fg='snow')
     label9.pack()
 
     # liste des étapes
-    indice = 1
-    indicelabel = 10
-    """for détail in agcdb.etapesTrip(id):
-        label.indicelabel= tkinter.Label(frameSeeAllTrips, text = 'L\'Etapes '+indice+' se déroule en {}'.format(détail[0])' à {}'.format(détail[2])' à {}'.format(détail[1])), bg='grey15',fg='snow')
-        label.indicelabel.pack()
-        indice += 1
-        indicelabel += 1"""
+    labels = []
+    for idx, detail in enumerate(agcdb.database.etapesTrip(id)):
+        labels.append(tkinter.Label(frameSeeMoreAboutTrip, text=f'L\'étape {idx+1} se déroule en {detail[0]} à {detail[2]} à {detail[1]}', bg='grey15',fg='snow'))
+        labels[idx].pack()
 
     # retour
-    returnButton = tkinter.Button(frameSeeMoreAboutTrip, command=retour2, text='Retour', bg='grey15', fg='snow')
+    returnButton = tkinter.Button(frameSeeMoreAboutTrip, command=retour2, text='Retour', overrelief='groove', bg='grey40', fg='snow')
     returnButton.pack()
 
 
 def retour2():
+    frameSeeAllTripsFunc()
     frameSeeMoreAboutTrip.destroy()
-    frameSeeAllTrips()

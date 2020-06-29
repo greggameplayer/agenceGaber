@@ -7,8 +7,9 @@ except ImportError:
     os.system('pip install pyodbc wheel')
     import pyodbc
 
+
 class DATABASE:
-    def __init__(self,ip,port,dbname,user,pwd):
+    def __init__(self, ip, port, dbname, user, pwd):
         self.ip = ip
         self.port = port
         self.user = user
@@ -16,21 +17,20 @@ class DATABASE:
         self.dbname = dbname
 
     def connectToDatabase(self):
-        conn = pyodbc.connect('Driver={MySQL ODBC 8.0 ANSI Driver};Server=' + self.ip +';Port=' + self.port +';Database=' + self.dbname +';Uid=' + self.user + ';Pwd=' + self.pwd +';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+        conn = pyodbc.connect(
+            'Driver={MySQL ODBC 8.0 ANSI Driver};Server=' + self.ip + ';Port=' + self.port + ';Database=' + self.dbname + ';Uid=' + self.user + ';Pwd=' + self.pwd + ';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
         conn.setencoding(encoding='utf-8')
         return conn
-
 
     def closeDatabase(self, conn, cursor):
         cursor.close()
         conn.close()
 
-
     def circuitInfos(self, IdGiven):
         conn = self.connectToDatabase()
         cursor = conn.cursor()
         cursor.execute(
-        """
+            """
         Select
         Circuit.IdCircuit, Circuit.Descriptif,
         (SELECT Ville.Libelle
@@ -48,7 +48,7 @@ class DATABASE:
         rows = cursor.fetchall()
         self.closeDatabase(conn, cursor)
         return rows
-    
+
     def signUP(self, email, nom, prenom, birthdate, mdp):
         conn = self.connectToDatabase()
         cursor = conn.cursor()
@@ -83,12 +83,11 @@ class DATABASE:
             return {"message": "L'utilisateur a été créé avec succés"}
         else:
             return {"error": "Un utilisateur posséde déjà cet email"}
-    
+
     def signIN(self, credentials):
         resultat = []
         try:
             conn = self.connectToDatabase()
-            print('\n nul \n')
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM utilisateur WHERE utilisateur.email=?", credentials[0])
             resultat = cursor.fetchone()
@@ -117,7 +116,7 @@ class DATABASE:
                         return []
             else:
                 return []
-    
+
     def getUserGroup(self, UserID):
         results = []
         test = 0
@@ -132,26 +131,24 @@ class DATABASE:
             self.closeDatabase(conn, cursor)
             return test
 
-
     def allTrip(self):
-        try: 
+        try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM circuit")
-            result = cursor.fetchall
+            result = cursor.fetchall()
         except:
             result = []
         finally:
             self.closeDatabase(conn, cursor)
             return result
-    
+
     def featureTrip(self, id):
-        n= (id,)
-        try: 
+        try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM circuit WHERE IdCircuit = {}", n)
-            result = cursor.fetchone
+            cursor.execute("SELECT * FROM circuit WHERE IdCircuit=?", id)
+            result = cursor.fetchone()
         except:
             result = []
         finally:
@@ -159,25 +156,26 @@ class DATABASE:
             return result
 
     def numberPlacesLeft(self, id):
-        n= (id,)
-        try: 
+        try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM reservation WHERE IdCircuit = {}", n)
-            result = cursor.fetchone
+            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM reservation WHERE IdCircuit=?", id)
+            result = cursor.fetchone()[0]
+
+            if result is None:
+                result = '0'
         except:
-            result = ['0']
+            result = '0'
         finally:
             self.closeDatabase(conn, cursor)
             return result
 
     def citiesTrip(self, id):
-        n= (id,)
-        try: 
+        try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM etape WHERE IdCircuit = {}", n)
-            result = cursor.fetchone
+            cursor.execute("SELECT SUM(NbrPlaceReserver) FROM etape WHERE IdCircuit=?", id)
+            result = cursor.fetchone()
         except:
             result = ['0']
         finally:
@@ -185,12 +183,14 @@ class DATABASE:
             return result
 
     def etapesTrip(self, id):
-        idCircuit= (id,)
         try:
             conn = self.connectToDatabase()
             cursor = conn.cursor()
-            cursor.execute("SELECT etape.NomPays, etape.NomLieu, ville.Libelle FROM etape, ville WHERE ville.IdVille = etape.IdVille AND IdCircuit={}",idCircuit)
-            results = cursor.fetchall
+            cursor.execute(
+                "SELECT etape.NomPays, etape.NomLieu, ville.Libelle FROM etape, ville WHERE ville.IdVille = "
+                "etape.IdVille AND IdCircuit=?",
+                id)
+            results = cursor.fetchall()
         except:
             results = []
         finally:

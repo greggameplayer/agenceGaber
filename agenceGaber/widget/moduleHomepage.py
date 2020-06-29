@@ -8,12 +8,12 @@ import agenceGaber.widget.Admin.moduleFindTrip as awamft
 
 def menuFrame():
     if agconn.user.getRole() == 0:
-        menuClient()
+        menuClientFunc()
     else:
-        menuAdministrateur()
+        menuAdministrateurFunc()
 
 
-def menuAdministrateur():
+def menuAdministrateurFunc():
     global menuAdministrateur
     menuAdministrateur = tkinter.Frame(agm.window)
     # création de la frame
@@ -36,49 +36,49 @@ def menuAdministrateur():
     # creat a new trip
     creatTrip = tkinter.Button(menuAdministrateur, text='Ajouter un voyage', width=20, overrelief='groove',
                                command=toFrameAddTrip, bg='grey40', fg="snow")
-    creatTrip.grid(row=2, column=0)
+    creatTrip.grid(row=3, column=0)
     # update trip
     updateTrip = tkinter.Button(menuAdministrateur, text='Modifier un voyage', width=20, overrelief='groove',
                                 command=toFrameModifTrip, bg='grey40', fg="snow")
-    updateTrip.grid(row=3, column=0)
+    updateTrip.grid(row=4, column=0)
     # voidLabel 2
     voidLabel2 = tkinter.Label(menuAdministrateur, bg='grey15')
-    voidLabel2.grid(row=4)
+    voidLabel2.grid(row=5)
     # disconnect
     disconnect = tkinter.Button(menuAdministrateur, text='Déconnexion', width=10, overrelief='groove',
                                 command=disconn, bg='grey40', fg="snow")
-    disconnect.grid(row=5, column=0)
+    disconnect.grid(row=6, column=0)
     # close app
     closeApp = tkinter.Button(menuAdministrateur, text='Quitter', width=10, overrelief='groove', command=quit,
                               bg='grey40', fg="snow")
-    closeApp.grid(row=6, column=0)
+    closeApp.grid(row=7, column=0)
 
 
-def toFrameSeeAllTrips1():
+def toFrameSeeAllTrips():
     menuAdministrateur.destroy()
-    awamft.frameSeeAllTrips()
+    awamft.frameSeeAllTripsFunc()
 
 
 def toFrameSeeAllUsers():
     menuAdministrateur.destroy()
-    awamft.frameSeeAllUsers()
+    awamft.frameSeeAllUsersFunc()
 
 
 def toFrameModifTrip():
     menuAdministrateur.destroy()
-    awamft.frameSeeModifTrips()
+    awamft.frameSeeModifTripsFunc()
 
 
 def toFrameAddTrip():
     menuAdministrateur.destroy()
-    awamft.frameAddTrip()
+    awamft.frameAddTripFunc()
 
 
 def quit():
     agm.window.destroy()
 
 
-def menuClient():
+def menuClientFunc():
     # variables
     global menuClient
     # création de la frame
@@ -126,10 +126,6 @@ def toFrameSeeAllTripsUser():
 def toFrameSeeAllPayments():
     menuClient.destroy()
     awamft.SeeAllPayments()
-
-
-def toFrameSeeAllTrips():
-    pass
 
 
 def disconn():
