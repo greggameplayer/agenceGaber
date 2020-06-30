@@ -95,6 +95,7 @@ class DATABASE:
             print('fail to connect')
         finally:
             mdp = ""
+            print(resultat)
             if len(resultat) > 0:
                 if self.getUserGroup(resultat[0]) == 1:
                     cursor.execute("SELECT * FROM administrateur WHERE IdAdmin=?", resultat[0])

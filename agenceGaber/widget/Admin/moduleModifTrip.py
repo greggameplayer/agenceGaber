@@ -25,13 +25,83 @@ def frameSeeAllTripsFunc():
                                       command=lambda id=i[0]: seeMore(id), overrelief='groove', bg='grey40', fg='snow')
         buttonVoyage.pack()
 
+
+    #ajouter un voyage
+    plusButton = tkinter.Button(frameSeeAllTrips, command= ajoutervoyage, text='+', overrelief='groove', bg='grey40', fg='snow')
+    plusButton.pack()
+
+
     # return button
     returnButton = tkinter.Button(frameSeeAllTrips, command=retour, text='Retour', overrelief='groove', bg='grey40', fg='snow')
     returnButton.pack()
 
 
+def ajoutervoyage():
+    frameSeeAllTrips.destroy()
+    ajoutervoyageFunc()
+
+def ajoutervoyageFunc():
+    # variables globales
+    global frameAjouterVoyage
+    # creation de la frame
+    frameAjouterVoyage = tkinter.Frame(agm.window)
+    frameAjouterVoyage.configure(bg='grey15')
+    frameAjouterVoyage.pack(pady=10)
+    # widget
+    LabelAV1 = tkinter.Label(frameAjouterVoyage, text='Créer un voyage :', bg='grey15', fg='snow')
+    LabelAV1.grid(row=1, column=0)
+
+    Espace1 = tkinter.Label(frameAjouterVoyage, text='                         ', bg='grey15', fg='snow')
+    Espace1.grid(row=2, column=0)
+
+    LabelAV3 = tkinter.Label(frameAjouterVoyage, text='Entrez le nombre d\'Etape(s): ', bg='grey15', fg='snow')
+    LabelAV3.grid(row=3, column=0)
+
+    EntryAV1 = tkinter.Entry(frameAjouterVoyage, width=5, bg='grey40', fg='snow')
+    EntryAV1.grid(row=3, column=1)
+
+    validationButton = tkinter.Button(frameAjouterVoyage, command=creationEtapes, text='Valider la génération', overrelief='groove', bg='grey40', fg='snow')
+    validationButton.grid(row=4, column=0)
+
+    Espace2= tkinter.Label(frameAjouterVoyage, text='                         ', bg='grey15', fg='snow')
+    Espace2.grid(row=5, column=1)
+
+    returnButtonajoutervoyage = tkinter.Button(frameAjouterVoyage, command=retour3, text='Retour', overrelief='groove', bg='grey40', fg='snow')
+    returnButtonajoutervoyage.grid(row=6, column=0)
+
+
+    def creationEtapes():
+        Labels = []
+        Entries = []
+        validationButton.destroy()
+        returnButtonajoutervoyage.destroy()
+        Espace2.destroy()
+        for Indice in range(int(EntryAV1.get())):
+            Labels.append(tkinter.Label(frameAjouterVoyage, text ='Etape n°'+Indice+':', bg='grey15', fg='snow'))
+            Labels[int(Indice)].grid(row=4+int(Indice), comlum=0)
+
+            Labels.append(tkinter.Label(frameAjouterVoyage, text ='... :', bg='grey15', fg='snow'))
+            Labels[1+int(Indice)].grid(row=6+int(Indice), comlum=0)
+
+            Entries.append(tkinter.Entry(frameAjouterVoyage, width=30, bg='grey40', fg='snow'))
+            Entries[int(Indice)].grid(row=6+int(Indice), comlum=1)
+
+            Labels.append(tkinter.Label(frameAjouterVoyage, text ='...', bg='grey15', fg='snow'))
+            Labels[2+int(Indice)].grid(row=7+int(Indice), comlum=0)
+
+            Entries.append(tkinter.Entry(frameAjouterVoyage, width=30, bg='grey40', fg='snow'))
+            Entries[1+int(Indice)].grid(row=7+int(Indice), comlum=1)
+
+        returnButtonajoutervoyage2 = tkinter.Button(frameAjouterVoyage, command=retour3, text='Retour', overrelief='groove', bg='grey40', fg='snow')
+        returnButtonajoutervoyage2.grid(row=8+int(Indice), column=0)
+
+
 def retour():
     frameSeeAllTrips.destroy()
+    agwmh.menuAdministrateurFunc()
+
+def retour3():
+    frameAjouterVoyage.destroy()
     agwmh.menuAdministrateurFunc()
 
 
