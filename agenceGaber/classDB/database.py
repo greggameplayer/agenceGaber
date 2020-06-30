@@ -50,6 +50,7 @@ class DATABASE:
         return rows
 
     def signUP(self, email, nom, prenom, birthdate, mdp):
+        print(email, nom, prenom, birthdate, mdp)
         conn = self.connectToDatabase()
         cursor = conn.cursor()
         cursor.execute(
@@ -63,26 +64,29 @@ class DATABASE:
             addconn = self.connectToDatabase()
             addcursor = addconn.cursor()
             addcursor.execute(
-                """
-                INSERT INTO utilisateur(Nom, email, Prenom, DateDeNaissance)
-                VALUES(?,?,?,?)
-                """,
-                nom, email, prenom, birthdate
+                f"INSERT INTO utilisateur(Nom, email, Prenom, DateDeNaissance) VALUES('{nom}','{email}','{prenom}','{birthdate}')"
             )
-            addcursor.execute("select SCOPE_IDENTITY()")
-            lastId = addcursor.fetchone()
-            if len(list(addcursor.fetchall())) != []:
-                addcursor.execute(
-                    """
-                        INSERT INTO client(IdClient, mdp) VALUES(?, ?)
-                    """, lastId[0], mdp
-                )
-            else:
-                return {"error": "Il y a eu un problème lors de la création de l'utilisateur"}
+            addcursor.commit()
             self.closeDatabase(addconn, addcursor)
-            return {"message": "L'utilisateur a été créé avec succés"}
+            
+            addconn2 = self.connectToDatabase()
+            addcursor2 = addconn2.cursor()
+            addcursor2.execute("select IdUtilisateur FROM utilisateur where email=?", email)
+            lastId = addcursor2.fetchone()
+            if len(lastId)>0:
+                print(lastId)
+                addconn3 = self.connectToDatabase()
+                addcursor3 = addconn3.cursor()
+                addcursor3.execute("INSERT INTO client(IdClient, mdp) VALUES(?, ?)", lastId[0], mdp
+                )
+                addcursor3.commit()
+            else:
+                return "error1"
+            self.closeDatabase(addconn2, addcursor2)
+            self.closeDatabase(addconn3, addcursor3)
+            return "message"
         else:
-            return {"error": "Un utilisateur posséde déjà cet email"}
+            return "error"
 
     def signIN(self, credentials):
         resultat = []
@@ -197,3 +201,94 @@ class DATABASE:
         finally:
             self.closeDatabase(conn, cursor)
             return results
+    
+    def allEtapes(self):
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM etape, ville WHERE ville.IdVille = etape.IdVille"
+            )
+            results = cursor.fetchall()
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
+    
+    def allTown(self):
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM ville"
+            )
+            results = cursor.fetchall()
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
+    
+    def allCountry(self):
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM pays"
+            )
+            results = cursor.fetchall()
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
+    
+    def getLieu(self, IdVille):
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM lieuavisiter WHERE IdVille=?", IdVille
+            )
+            results = cursor.fetchall()
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
+    
+    def getLieuxByVilleName(self, NameVille):
+        try:
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM lieuavisiter, ville WHERE ville.Libelle=? and ville.IdVille=lieuavisiter.IdVille", NameVille
+            )
+            results = cursor.fetchall()
+        except:
+            results = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return results
+
+    def userTripSub(self, IdClient):
+        try:
+            print(IdClient)
+            conn = self.connectToDatabase()
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT reservation.NbrPlaceReserver, reservation.DateReservation, reservation.IdCircuit, circuit.DateDepart, circuit.Duree, circuit.PrixInscription, circuit.NomPaysDepart, circuit.NomPaysArrivee
+                FROM reservation, circuit
+                WHERE reservation.IdClient=?
+                AND circuit.IdCircuit = reservation.IdCircuit""", IdClient
+            )
+            informationsreservations = cursor.fetchall()
+        except:
+            informationsreservations = []
+        finally:
+            self.closeDatabase(conn, cursor)
+            return informationsreservations
+
+    def ajoutReservation(self):
+        pass

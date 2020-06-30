@@ -3,6 +3,7 @@ import agenceGaber.main as agm
 from agenceGaber.widget.moduleInscription import *
 from agenceGaber.classDB.User import User
 import agenceGaber.widget.moduleHomepage as homepage
+from functools import partial
 
 
 def connexion():
@@ -36,6 +37,12 @@ def connexion():
                                    command=subscribeButton, bg='grey40', fg="snow")
     btInscription.grid(row=4, column=0, pady=2, columnspan=2)
 
+    btConnexionAdmin = tkinter.Button(frameConnexion, text='Connexion Admin', width=20, overrelief='groove', command=partial(traitement2, "Victor.Marit@epsi.fr", "azerty"), bg='grey40', fg="snow")
+    btConnexionAdmin.grid(row=5, column=0, pady=2, columnspan=2)
+    
+    btConnexionClient = tkinter.Button(frameConnexion, text='Connexion client', width=20, overrelief='groove', command=partial(traitement2, "Gregoire.Hage@epsi.fr", "azerty"), bg='grey40', fg="snow")
+    btConnexionClient.grid(row=6, column=0, pady=2, columnspan=2)
+
 
 def traitement():
     global user
@@ -54,6 +61,28 @@ def traitement():
             tkinter.messagebox.showinfo('Alert', 'Veuillez saisir un email')
         else:
             tkinter.messagebox.showinfo('Alert', 'Veuillez saisir votre mot de passe')
+
+def traitement2(mail, passw):
+    global user
+    log = (mail, passw)
+    if log[0] != '' and log[1] != '':
+        user = User(log)
+        user.findUserOnDB()
+        if user.auth:
+            #tkinter.messagebox.showinfo('Connexion', 'Connexion Réussie')
+            frameConnexion.destroy()
+            homepage.menuFrame()
+        else:
+            tkinter.messagebox.showinfo('Alert', 'Echec de la connexion, vérifiez les informations saisies')
+
+def traitement3(log):
+    global user
+    user = User(log)
+    user.findUserOnDB()
+    if user.auth:
+        #tkinter.messagebox.showinfo('Connexion', 'Connexion Réussie')
+        homepage.menuFrame()
+
 
 
 def subscribeButton():
